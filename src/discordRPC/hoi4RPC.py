@@ -13,6 +13,7 @@ try:
    client_id = '1021549599732809820'
    RPC = Presence(client_id)  # Initialize the Presence class
    RPC.connect()  # Start the handshake loop
+   print("connected to RPC")
 
    playTime = time.time()
 
@@ -55,16 +56,28 @@ while gameRunning:  # The presence will stay on as long as the program is runnin
 
          save = open(lastSavePath, "r")
          data = ""
-         for i in range(5):
+         mod_data = []
+         for i in range(5): # adding general data
             data += save.readline()
+
+         for i in range(10): # skipping lines
+            next(save)
+
+         temp = save.readline() # adding mods data
+         while temp != "}":
+            mod_data.append(temp.lstrip()[1:-2])
+            temp = save.readline()
+
          save.close() # close file, hoi4 needs to have access to write it, see path.py in tests.
 
-         data = re.sub("(HOI4txt|player=|ideology=|date=|difficulty=|\")", "", data).split()
+         data = re.sub(f"(HOI4txt|player=|ideology=|date=|difficulty=|\")", "", data).split()
          # example of data:
          # ['GER', 'fascism', '1936.2.1.2', 'normal']
+         print(data) # debug
+         print(mod_data)
 
          # defining the country
-         country = countries.getCountry(data[0]) # get the country name from the country code
+         country = countries.getCountry(data[0], data[1]) # get the country name from the country code
          ideology = data[1]
          year = data[2][:4]
          mode = data[3]
@@ -81,7 +94,6 @@ while gameRunning:  # The presence will stay on as long as the program is runnin
             start=playTime
          )
 
-         print(data) # debug
    except Exception as e:
       print(e)
       time.sleep(5)

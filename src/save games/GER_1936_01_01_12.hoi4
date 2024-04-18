@@ -1,6 +1,6 @@
 HOI4txt
-player="GER"
-ideology=fascism
+player="KIR"
+ideology=democratic
 date="1936.1.1.12"
 difficulty="normal"
 version="Avalanche v1.12.13.fbdd (b721)"
@@ -11,4 +11,8 @@ player_countries={
 		country_leader=yes
 		id=1
 	}
+}
+mods={
+	"Equestria at War"
+	"Some another small mod"
 }

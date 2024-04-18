@@ -6,7 +6,7 @@ class Country:
    def __str__(self) -> str:
       return f"{self.name}, {self.flag}"
 
-def getCountry(country: str) -> Country:
+def getCountry(country: str, ideology: str) -> Country:
    """Returns a Country object from the country code."""
    if country == "" or not country:
       raise ValueError("Country code cannot be empty.")
@@ -17,18 +17,23 @@ def getCountry(country: str) -> Country:
 
    # This is raised when there is a country that isn't in the countries dictionary
    if countryTuple is None:
-      countries[country] = (country, HOI_ICON)
+      countries[country] = (country, flags_by_ideology[ideology])
 
    # Raised if there isn't an image link
    elif countryTuple[1] == "":
-      countries[country] = (countryTuple[0], HOI_ICON)
+      countries[country] = (countryTuple[0], flags_by_ideology[ideology])
 
    countryName = countries[country][0]
    flag = countries[country][1]
 
    return Country(countryName, flag)
 
-HOI_ICON = "https://hoi4.paradoxwikis.com/images/8/8a/HoI4_icon.png"
+flags_by_ideology: dict[str, str] = {
+   "democratic" : "https://hoi4.paradoxwikis.com/images/e/e9/Democracy.png",
+   "neutral" : "https://hoi4.paradoxwikis.com/images/9/98/Neutrality.png",
+   "fascism" : "https://hoi4.paradoxwikis.com/images/1/1f/Fascism.png",
+   "communism" : "https://hoi4.paradoxwikis.com/images/e/e9/Communism.png"
+}
 
 # List of countries, add more if you want
 countries: dict[str, tuple[str, str]] = {
@@ -39,7 +44,7 @@ countries: dict[str, tuple[str, str]] = {
    "FRA" : ("France", "https://hoi4.paradoxwikis.com/images/d/de/France.png"),
    "SPR" : ("Spain", "https://hoi4.paradoxwikis.com/images/2/2c/Nationalist_Spain.png"),
    "BUL" : ("Bulgaria", "https://hoi4.paradoxwikis.com/images/f/f4/Bulgaria.png"),
-   "D##" : ("Civil War Country", HOI_ICON),
+   "D##" : ("Civil War Country", "https://hoi4.paradoxwikis.com/images/a/a8/Anarchism.png"),
 
    "AFG" : ("Afghanistan", "https://hoi4.paradoxwikis.com/images/7/7d/Afghanistan.png"),
    "ALB" : ("Albania", "https://hoi4.paradoxwikis.com/images/0/07/Albania.png"),
